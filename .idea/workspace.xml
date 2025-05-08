@@ -5,32 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="38ea3773-9c66-4bfe-b845-09b1458bf73b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/tg.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/db/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/depend/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/models/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/models/model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bot/bot.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bot/migration/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bot/migration/fill_data.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bot/migration/migration.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bot/migration/sqlite_schema.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parser/db/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parser/parser/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parser/parser/log.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parser/utils/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parser/utils/formatter.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parser/utils/links.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bot/migration/migration.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/migration/migration.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/parser/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/parser/log.py" beforeDir="false" afterPath="$PROJECT_DIR$/parser/log.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/parser/logs/app.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/parser/parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/parser/parser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/utils/links.py" beforeDir="false" afterPath="$PROJECT_DIR$/parser/utils/links.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,31 +38,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Python.__init__.executor": "Run",
-    "Python.bot (1).executor": "Run",
-    "Python.bot.executor": "Run",
-    "Python.fill_data.executor": "Run",
-    "Python.links.executor": "Run",
-    "Python.main (1).executor": "Run",
-    "Python.main.executor": "Run",
-    "Python.migration.executor": "Run",
-    "Python.web_app.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "develop",
-    "last_opened_file_path": "C:/Users/tpk256/source/repos/TicketPick/tg/app"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Python.__init__.executor&quot;: &quot;Run&quot;,
+    &quot;Python.bot (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.bot.executor&quot;: &quot;Run&quot;,
+    &quot;Python.fill_data.executor&quot;: &quot;Run&quot;,
+    &quot;Python.links.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.migration.executor&quot;: &quot;Run&quot;,
+    &quot;Python.web_app.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/tpk256/source/repos/TicketPick/tg/app&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\tpk256\source\repos\TicketPick\tg\parser" />
+      <recent name="C:\Users\tpk256\source\repos\TicketPick\tg" />
       <recent name="C:\Users\tpk256\source\repos\TicketPick\tg\bot" />
       <recent name="C:\Users\tpk256\source\repos\TicketPick\tg\app" />
       <recent name="C:\Users\tpk256\source\repos\TicketPick\tg\app\db" />
-      <recent name="C:\Users\tpk256\source\repos\TicketPick\tg" />
     </key>
   </component>
   <component name="RunManager" selected="Python.main">

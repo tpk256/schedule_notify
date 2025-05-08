@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect("../../app/schedule_notifier.db")
+conn = sqlite3.connect("/db/schedule_notifier.db")
 cursor = conn.cursor()
 
 

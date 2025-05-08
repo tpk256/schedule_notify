@@ -23,7 +23,7 @@ from aiogram.types import (
 os.chdir(r"/")
 
 
-DOWNLOAD_DIR = "../parser/parser/downloads"
+DOWNLOAD_DIR = "../parser/downloads"
 HASH_DB_FILE = "file_hashes.json"
 DOWNLOAD_DB_FILE = "download_db.json"
 

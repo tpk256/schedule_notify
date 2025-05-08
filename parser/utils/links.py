@@ -24,14 +24,13 @@ class Link:
     def file_type(self):
         if not (self.forma and self.kyrs):
             return None
+        if self.forma == FormaObychenia.OCHNO.value:
+            return 10 + self.kyrs
+        elif self.forma == FormaObychenia.ZA_OCHNO.value:
+            return 20 + self.kyrs
 
-        match self.forma:
-            case FormaObychenia.OCHNO.value:
-                return 10 + self.kyrs
-            case FormaObychenia.ZA_OCHNO.value:
-                return 20 + self.kyrs
-            case FormaObychenia.OCHNO_AND_ZA_OCHNO.value:
-                return 30 + self.kyrs
+        elif self.forma == FormaObychenia.OCHNO_AND_ZA_OCHNO.value:
+            return 30 + self.kyrs
 
 
 class File:

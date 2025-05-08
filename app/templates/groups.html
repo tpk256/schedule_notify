@@ -65,6 +65,8 @@
       <tr>
         <th>Имя группы</th>
         <th>ID группы TG</th>
+        <th>Форма обучения</th>
+        <th>Курс</th>
         <th>Статус оповещений</th>
         <th>Код</th>
       </tr>
@@ -74,6 +76,8 @@
       <tr>
         <td>{{ group.name_group }}</td>
         <td>{{ group.chat_id }}</td>
+        <td>{{ group.get_forma }}</td>
+        <td>{{ group.file_type % 10 }}</td>
         <td>
           {% if group.is_notify %}
             <span class="status-on">Включено</span>

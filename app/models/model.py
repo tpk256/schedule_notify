@@ -32,6 +32,20 @@ class Group(BaseModel):
     is_notify: bool
     activated: bool
     code: str
+    file_type: int
+
+    @property
+    def get_forma(self) -> str:
+        temp = self.file_type // 10
+
+        if temp == 1:
+            return "Очно"
+        elif temp == 2:
+            return "Заочно"
+        elif temp == 3:
+            return "Очно-Заочно"
+        return ""
+
 
 
 class User(BaseModel):

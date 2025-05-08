@@ -1,0 +1,20 @@
+2025-05-09 02:32:17 - asyncio - DEBUG - Using proactor: IocpProactor
+2025-05-09 02:32:22 - Parse - INFO - Session got
+2025-05-09 02:32:40 - Parse - INFO - {'och': [tFile: downloads\1k 12.05-17.05.2025.xlsx, hash: 633d2ea4757370616ba6670769f613e1c94d94f487c0923d77fafd01dd463719 file_id: BQACAgIAAyEGAASXNVtGAAIByWgdIxXD0DTzOeLwnCqoA-jWJDJZAAKLfAAC3CLoSEJTv2oDulu2NgQ, tFile: downloads\2k 12.05-17.05.2025.xlsx, hash: 26c4afddbff763a194b170fe0878850a5106b0cf53fa67b62cda78f7f91e9b09 file_id: BQACAgIAAyEGAASXNVtGAAIBymgdIxVE0FXB_E9NBPzFejbjJ-OHAAKMfAAC3CLoSEzGbvJZNNcpNgQ, tFile: downloads\3k 12.05-17.05.2025.xlsx, hash: 84b4586f350e32d5e0c8a73872a79bfac14395b92f02f33e7accb0baf87482fe file_id: BQACAgIAAyEGAASXNVtGAAIBy2gdIxXPRaEYm_Rvzmq2A3_XPz5NAAKNfAAC3CLoSAABpPir3IYnXzYE, tFile: downloads\1k 05.05-10.05.2025.xlsx, hash: da6420e1934aa2c0ec7f83a38b332ae0a6f48190f707493e842d871c267d6dd4 file_id: BQACAgIAAyEGAASXNVtGAAIBzGgdIxZJ5iXeQdtCIOh65DDcDRNxAAKOfAAC3CLoSK1vVKjJvYdPNgQ, tFile: downloads\2k 05.05-10.05.2025.xlsx, hash: fa4558f71b84a7056ab094c72e09353becd99dac720f3825cc75b986bcf47d03 file_id: BQACAgIAAyEGAASXNVtGAAIBzWgdIxad5qf1AVdHBx3-uzEzszttAAKPfAAC3CLoSGBujXMtDHS7NgQ, tFile: downloads\3k 05.05-10.05.2025.xlsx, hash: ba07fdc276995d2e49e36667318083965c29b6f23aebe3981c9ca1e646f83181 file_id: BQACAgIAAyEGAASXNVtGAAIBzmgdIxqafQQAASDQ215OpSN08-2HJwACkHwAAtwi6EjafsuGNKplATYE], 'och_zaoch': [tFile: downloads\1kBEK-24oz 12.05-17.05.xls, hash: a35fec7c34633413ff442a1051b2e32d858445cb3d665370b01180f4a8051d42 file_id: BQACAgIAAyEGAASXNVtGAAIBz2gdIxqp_ssTetzUGGQ2FupYXtvfAAKRfAAC3CLoSPmYZcpLaUgdNgQ, tFile: downloads\2kBEK-23oz 12.05-17.05.xls, hash: e156353ab15ef97ad40409cc147425aaec7bd0c7b178ef4943b62e72b36a1097 file_id: BQACAgIAAyEGAASXNVtGAAIB0GgdIxt5u1UrAbwt4TpAjXZmXy0XAAKSfAAC3CLoSHQVm6MqxsTSNgQ, tFile: downloads\3kBEK-22oz 12.05-17.05.xls, hash: 59fbecb2c612a5607af214b48d51941ff48e324a0de6cd761438726041f1c6f0 file_id: BQACAgIAAyEGAASXNVtGAAIB0WgdIxxr0MXKM2SlyUULrRqqamMDAAKTfAAC3CLoSDwdEGIkwF4iNgQ, tFile: downloads\1kBEK-24oz 05.05-10.05.xls, hash: 5e73a5819700aa0d0a8b0777100630df7849b39eaaf1b988a4641219e20d72ee file_id: BQACAgIAAyEGAASXNVtGAAIB0mgdIxySQROJmSPH5QEaaUo4rk6kAAKUfAAC3CLoSB6nnlO__yD2NgQ, tFile: downloads\2kBEK-23oz 05.05-10.05.xls, hash: ea70c7167ae1b9d38e85c093a25446e391c467671f2a90378aadd581d6ca11bf file_id: BQACAgIAAyEGAASXNVtGAAIB02gdIyBelsPJBT86ibztAvIhhy0jAAKVfAAC3CLoSAVUbw6JNEdJNgQ, tFile: downloads\3kBEK-22oz 05.05-10.05.xls, hash: 47a9b8e9e43b3c836882ab4d82c0a4815413cf829b07ffd49f867b7c35c60fbc file_id: BQACAgIAAyEGAASXNVtGAAIB1GgdIyBxcVKTkwkSvPk67FwO8J0wAAKWfAAC3CLoSFr3lyardOGMNgQ]}
+2025-05-09 02:32:40 - Parse - INFO - Очищена папка downloads
+2025-05-09 02:32:45 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000001DB4EB7BD00>
+2025-05-09 02:32:45 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x000001DB4EA5BBE0>, 35862.109)])']
+connector: <aiohttp.connector.TCPConnector object at 0x000001DB4EB7BD60>
+2025-05-09 02:32:45 - asyncio - ERROR - Fatal error on SSL transport
+protocol: <asyncio.sslproto.SSLProtocol object at 0x000001DB4E7B77C0>
+transport: <_ProactorSocketTransport fd=704 read=<_OverlappedFuture cancelled>>
+Traceback (most recent call last):
+  File "C:\Users\tpk256\AppData\Local\Programs\Python\Python310\lib\asyncio\sslproto.py", line 690, in _process_write_backlog
+    self._transport.write(chunk)
+  File "C:\Users\tpk256\AppData\Local\Programs\Python\Python310\lib\asyncio\proactor_events.py", line 361, in write
+    self._loop_writing(data=bytes(data))
+  File "C:\Users\tpk256\AppData\Local\Programs\Python\Python310\lib\asyncio\proactor_events.py", line 397, in _loop_writing
+    self._write_fut = self._loop._proactor.send(self._sock, data)
+AttributeError: 'NoneType' object has no attribute 'send'

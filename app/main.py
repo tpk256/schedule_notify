@@ -90,8 +90,6 @@ async def get_current_user(
     return user, db_conn
 
 
-
-
 @app.post('/token/')
 async def token(
         db_conn: Annotated[sqlite3.Connection, Depends(get_conn)],

@@ -130,7 +130,9 @@ def get_groups(db_conn: sqlite3.Connection) -> list[model.Group]:
                 g.name_group,
                 g.isNotify,
                 g.isActivated,
-                a.code
+                a.code,
+                g.ref_file_type
+                
             FROM TgGroup AS g
             LEFT JOIN Activator AS a
               ON g.ref_activator = a.id
@@ -145,7 +147,9 @@ def get_groups(db_conn: sqlite3.Connection) -> list[model.Group]:
                     name_group=group[1],
                     is_notify=group[2],
                     activated=group[3],
-                    code=group[4]
+                    code=group[4],
+                    file_type=group[5]
+
                 )
             )
         return res

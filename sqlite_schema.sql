@@ -42,7 +42,7 @@ CREATE TABLE TgGroup (
 -- Создание таблицы активации
 CREATE TABLE Activator (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    code TEXT NOT NULL UNIQUE,
+    code TEXT NOT NULL UNIQUE
 );
 
 -- Создание триггера для автоматического обновления даты изменения файла

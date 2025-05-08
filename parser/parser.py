@@ -232,7 +232,7 @@ async def main():
     bot = Bot(token=BOT_TOKEN)
     while True:
         try:
-            db = sqlite3.connect("../" + os.environ['DATABASE'])
+            db = sqlite3.connect(os.environ['DATABASE'])
             session = await login(os.environ['USERNAME_MISIS'], os.environ['PASSWORD_MISIS'])
 
             funcs = {

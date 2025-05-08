@@ -3,6 +3,7 @@ import os
 
 import dotenv
 
+from models.model import Group
 
 dotenv.load_dotenv()
 
@@ -16,3 +17,8 @@ def get_conn() -> sqlite3.Connection:
     finally:
         conn.commit()
         conn.close()
+
+
+
+
+

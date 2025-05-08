@@ -1,0 +1,106 @@
+/* Импорт шрифта (Inter) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+  --primary-color: #4e73df;
+  --primary-hover: #2e59d9;
+  --bg-color: #f0f2f5;
+  --text-color: #333;
+  --input-bg: #fff;
+  --input-border: #dee2e6;
+  --input-focus: rgba(78,115,223,0.25);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Окно авторизации */
+.auth-win {
+  background: var(--input-bg);
+  padding: 2rem 2.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  max-width: 360px;
+  width: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+/* Заголовок формы */
+.auth-win h1 {
+  margin: 0 0 1.5rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Стили полей ввода */
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text-color);
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 0.75rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem var(--input-focus);
+  outline: none;
+}
+
+/* Placeholder */
+.form-control::placeholder {
+  color: #a3a3a3;
+}
+
+/* Кнопка */
+.btn {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  color: #fff;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.btn:hover {
+  background-color: var(--primary-hover);
+}
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Сообщение об ошибке */
+.error {
+  font-size: 0.875rem;
+  color: #e53e3e;
+  min-height: 1.2em;
+  margin-top: -0.75rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+img {
+    /* background-color: #0a1e64; */
+
+}

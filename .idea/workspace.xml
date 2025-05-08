@@ -5,14 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="38ea3773-9c66-4bfe-b845-09b1458bf73b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/forms/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/forms/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/css/bootstrap.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/static/css/login.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/admin.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/create_group.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/groups.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/tg.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/tg.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/migration/migration.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/migration/migration.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parser/parser/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/parser/parser/log.py" beforeDir="false" afterPath="$PROJECT_DIR$/parser/log.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parser/parser/logs/app.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/parser/parser/parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/parser/parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parser/utils/links.py" beforeDir="false" afterPath="$PROJECT_DIR$/parser/utils/links.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/db/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/db/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/depend/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/depend/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/models/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fill_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/fill_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migration.py" beforeDir="false" afterPath="$PROJECT_DIR$/migration.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/parser/parser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sqlite_schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sqlite_schema.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +33,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -38,34 +49,60 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Python.__init__.executor&quot;: &quot;Run&quot;,
-    &quot;Python.bot (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.bot.executor&quot;: &quot;Run&quot;,
-    &quot;Python.fill_data.executor&quot;: &quot;Run&quot;,
-    &quot;Python.links.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main (1).executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.migration.executor&quot;: &quot;Run&quot;,
-    &quot;Python.web_app.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/tpk256/source/repos/TicketPick/tg/app&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Python.__init__.executor": "Run",
+    "Python.bot (1).executor": "Run",
+    "Python.bot.executor": "Run",
+    "Python.fill_data.executor": "Run",
+    "Python.links.executor": "Run",
+    "Python.main (1).executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.migration.executor": "Run",
+    "Python.web_app.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "develop",
+    "last_opened_file_path": "C:/Users/tpk256/source/repos/TicketPick/tg/app/templates"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\tpk256\source\repos\TicketPick\tg\app\templates" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\tpk256\source\repos\TicketPick\tg\parser" />
-      <recent name="C:\Users\tpk256\source\repos\TicketPick\tg" />
-      <recent name="C:\Users\tpk256\source\repos\TicketPick\tg\bot" />
+      <recent name="C:\Users\tpk256\source\repos\TicketPick\tg\app\static\css" />
       <recent name="C:\Users\tpk256\source\repos\TicketPick\tg\app" />
-      <recent name="C:\Users\tpk256\source\repos\TicketPick\tg\app\db" />
+      <recent name="C:\Users\tpk256\source\repos\TicketPick\tg" />
+      <recent name="C:\Users\tpk256\source\repos\TicketPick\tg\parser" />
+      <recent name="C:\Users\tpk256\source\repos\TicketPick\tg\bot" />
     </key>
   </component>
   <component name="RunManager" selected="Python.main">
+    <configuration name="fill_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="tg" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/fill_data.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tg" />
       <option name="ENV_FILES" value="" />
@@ -80,6 +117,28 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="migration" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="tg" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/migration.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -113,11 +172,15 @@
     </configuration>
     <list>
       <item itemvalue="Python.web_app" />
+      <item itemvalue="Python.fill_data" />
+      <item itemvalue="Python.migration" />
       <item itemvalue="Python.main" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.fill_data" />
+        <item itemvalue="Python.migration" />
       </list>
     </recent_temporary>
   </component>

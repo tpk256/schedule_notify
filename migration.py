@@ -1,6 +1,12 @@
 import sqlite3
+import os
 
-conn = sqlite3.connect("/db/schedule_notifier.db")
+import dotenv
+
+dotenv.load_dotenv()
+
+
+conn = sqlite3.connect(os.environ['DATABASE'])
 cursor = conn.cursor()
 
 

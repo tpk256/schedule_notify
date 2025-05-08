@@ -4,3 +4,4 @@ Scripts
 .venv
 .idea
 __pycache__
+schedule_notifier.db

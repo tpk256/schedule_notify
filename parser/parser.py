@@ -12,7 +12,7 @@ from aiogram import Bot
 from aiogram.types import FSInputFile
 from aiogram.exceptions import TelegramBadRequest
 
-from utils import file_hash, Link, FormaObychenia, File
+from utils import file_hash, Link, FormaObychenia, File, GroupNotify
 from db import save_schedule_file, update_schedule_file, get_hash_by_url
 
 
@@ -226,6 +226,52 @@ async def save_data(db_conn: sqlite3.Connection, files: list[File]):
             save_schedule_file(db_conn, file)
 
 
+async def get_groups_notify(db_conn: sqlite3.Connection, file_type: int, file_id: str) -> list[GroupNotify]:
+
+    cursor = db_conn.cursor()
+    try:
+        query = """
+            SELECT 
+                chat_id
+            FROM
+                TgGroup
+            WHERE
+                isActivated = ?
+              AND isNotify = ?
+              AND ref_file_type = ?;
+        
+        """
+        res = []
+        cursor.execute(query, (True, True, file_type, ))
+        for row in cursor.fetchall():
+            res.append(
+                GroupNotify(
+                    chat_id=row[-1],
+                    file_id=file_id
+                )
+            )
+
+        return res
+
+    finally:
+        if cursor:
+            cursor.close()
+
+
+async def send_notify(db_conn: sqlite3.Connection, bot: Bot, files: list[File]):
+
+    groups: list[GroupNotify] = []
+    for file in files:
+        groups += await get_groups_notify(db_conn, file.link.file_type, file.file_id)
+
+    for group in groups:
+        await bot.send_document(
+            chat_id=group.chat_id,
+            document=group.file_id,
+            caption="Выложено новое расписание!"
+        )
+
+
 async def main():
     session = None
     db = None
@@ -252,9 +298,12 @@ async def main():
                 forma_ob: await upload_new_files(db, bot, files) for forma_ob, files in files.items()
             }
 
+            for_notify = []
             for _, files in uploaded_files.items():
+                for_notify += files
                 await save_data(db, files)
 
+            await send_notify(db, bot, for_notify)
             log.logger.info(f"{uploaded_files}")
 
         except Exception as ex:

@@ -79,6 +79,11 @@ async def get_schedule(
         with DbConnection() as db_conn:
 
             file_id = get_file_id_for_group(db_conn, group.file_type)
+            if file_id is None:
+                await message.answer(
+                   text="расписания нет"
+                )
+                return
 
             await message.answer_document(
                 document=file_id,
@@ -90,9 +95,11 @@ async def get_schedule(
         return
 
 
+middleware_cached = middleware.GroupMiddleware()
+
 
 async def main() -> None:
-    dp.message.middleware(middleware.GroupMiddleware())
+    dp.message.middleware(middleware_cached)
     try:
         await dp.start_polling(bot)
     finally:

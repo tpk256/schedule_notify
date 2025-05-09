@@ -8,7 +8,7 @@ dotenv.load_dotenv()
 
 conn = sqlite3.connect(os.environ['DATABASE'])
 cursor = conn.cursor()
-
+#
 # import sqlite3
 # conn = sqlite3.connect("/db/schedule_notifier.db")
 # cursor = conn.cursor()
@@ -21,7 +21,7 @@ cursor = conn.cursor()
 #                )
 # conn.commit()
 # conn.close()
-
+#
 
 for i in range(1, 4 + 1):
     cursor.execute(f"""

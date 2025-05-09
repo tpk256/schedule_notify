@@ -1,8 +1,15 @@
 import hashlib
 
+from pydantic import BaseModel
+
 from .links import *
 
 from .formatter import *
+
+
+class GroupNotify(BaseModel):
+    chat_id: str
+    file_id: str
 
 
 def file_hash(path: str, chunk_size: int = 8192) -> str:

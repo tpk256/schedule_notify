@@ -18,3 +18,72 @@ Traceback (most recent call last):
   File "C:\Users\tpk256\AppData\Local\Programs\Python\Python310\lib\asyncio\proactor_events.py", line 397, in _loop_writing
     self._write_fut = self._loop._proactor.send(self._sock, data)
 AttributeError: 'NoneType' object has no attribute 'send'
+2025-05-09 05:20:25 - asyncio - DEBUG - Using proactor: IocpProactor
+2025-05-09 05:20:29 - Parse - INFO - Session got
+2025-05-09 05:20:33 - Parse - INFO - файл downloads\1k 12.05-17.05.2025.xlsx уже находится в бд, hash: 633d2ea4757370616ba6670769f613e1c94d94f487c0923d77fafd01dd463719
+2025-05-09 05:20:33 - Parse - INFO - файл downloads\2k 12.05-17.05.2025.xlsx уже находится в бд, hash: 26c4afddbff763a194b170fe0878850a5106b0cf53fa67b62cda78f7f91e9b09
+2025-05-09 05:20:33 - Parse - INFO - файл downloads\3k 12.05-17.05.2025.xlsx уже находится в бд, hash: 84b4586f350e32d5e0c8a73872a79bfac14395b92f02f33e7accb0baf87482fe
+2025-05-09 05:20:34 - Parse - INFO - файл downloads\1k 05.05-10.05.2025.xlsx уже находится в бд, hash: da6420e1934aa2c0ec7f83a38b332ae0a6f48190f707493e842d871c267d6dd4
+2025-05-09 05:20:34 - Parse - INFO - файл downloads\2k 05.05-10.05.2025.xlsx уже находится в бд, hash: fa4558f71b84a7056ab094c72e09353becd99dac720f3825cc75b986bcf47d03
+2025-05-09 05:20:34 - Parse - INFO - файл downloads\3k 05.05-10.05.2025.xlsx уже находится в бд, hash: ba07fdc276995d2e49e36667318083965c29b6f23aebe3981c9ca1e646f83181
+2025-05-09 05:20:34 - Parse - INFO - файл downloads\1kBEK-24oz 12.05-17.05.xls уже находится в бд, hash: a35fec7c34633413ff442a1051b2e32d858445cb3d665370b01180f4a8051d42
+2025-05-09 05:20:34 - Parse - INFO - файл downloads\2kBEK-23oz 12.05-17.05.xls уже находится в бд, hash: e156353ab15ef97ad40409cc147425aaec7bd0c7b178ef4943b62e72b36a1097
+2025-05-09 05:20:35 - Parse - INFO - файл downloads\3kBEK-22oz 12.05-17.05.xls уже находится в бд, hash: 59fbecb2c612a5607af214b48d51941ff48e324a0de6cd761438726041f1c6f0
+2025-05-09 05:20:35 - Parse - INFO - файл downloads\1kBEK-24oz 05.05-10.05.xls уже находится в бд, hash: 5e73a5819700aa0d0a8b0777100630df7849b39eaaf1b988a4641219e20d72ee
+2025-05-09 05:20:35 - Parse - INFO - файл downloads\2kBEK-23oz 05.05-10.05.xls уже находится в бд, hash: ea70c7167ae1b9d38e85c093a25446e391c467671f2a90378aadd581d6ca11bf
+2025-05-09 05:20:35 - Parse - INFO - файл downloads\3kBEK-22oz 05.05-10.05.xls уже находится в бд, hash: 47a9b8e9e43b3c836882ab4d82c0a4815413cf829b07ffd49f867b7c35c60fbc
+2025-05-09 05:20:35 - Parse - INFO - {'och': [], 'och_zaoch': []}
+2025-05-09 05:20:35 - Parse - INFO - Очищена папка downloads
+2025-05-09 05:25:40 - Parse - INFO - Session got
+2025-05-09 05:25:58 - Parse - ERROR - Произошла ошибка Bot.send_document() missing 1 required positional argument: 'self'
+2025-05-09 05:25:58 - Parse - INFO - Очищена папка downloads
+2025-05-09 05:26:07 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x00000195B7ED75B0>
+2025-05-09 05:26:07 - asyncio - ERROR - Unclosed connector
+connections: ['deque([(<aiohttp.client_proto.ResponseHandler object at 0x00000195B7D42440>, 46260.703)])']
+connector: <aiohttp.connector.TCPConnector object at 0x00000195B7ED7C70>
+2025-05-09 05:26:07 - asyncio - ERROR - Fatal error on SSL transport
+protocol: <asyncio.sslproto.SSLProtocol object at 0x00000195B7D9F4F0>
+transport: <_ProactorSocketTransport fd=524 read=<_OverlappedFuture cancelled>>
+Traceback (most recent call last):
+  File "C:\Users\tpk256\AppData\Local\Programs\Python\Python310\lib\asyncio\sslproto.py", line 690, in _process_write_backlog
+    self._transport.write(chunk)
+  File "C:\Users\tpk256\AppData\Local\Programs\Python\Python310\lib\asyncio\proactor_events.py", line 361, in write
+    self._loop_writing(data=bytes(data))
+  File "C:\Users\tpk256\AppData\Local\Programs\Python\Python310\lib\asyncio\proactor_events.py", line 397, in _loop_writing
+    self._write_fut = self._loop._proactor.send(self._sock, data)
+AttributeError: 'NoneType' object has no attribute 'send'
+2025-05-09 05:27:10 - asyncio - DEBUG - Using proactor: IocpProactor
+2025-05-09 05:27:14 - Parse - INFO - Session got
+2025-05-09 05:27:33 - Parse - INFO - {'och': [tFile: downloads\1k 12.05-17.05.2025.xlsx, hash: 633d2ea4757370616ba6670769f613e1c94d94f487c0923d77fafd01dd463719 file_id: BQACAgIAAyEGAASXNVtGAAICDWgdTBIPPAJ4vL-Lazv17KbApEUiAAJKaQAC3CLwSHaMtLcEO7vCNgQ, tFile: downloads\2k 12.05-17.05.2025.xlsx, hash: 26c4afddbff763a194b170fe0878850a5106b0cf53fa67b62cda78f7f91e9b09 file_id: BQACAgIAAyEGAASXNVtGAAICDmgdTBMikWeKz36DMqInX323u9lkAAJLaQAC3CLwSHFk5P3_SvNBNgQ, tFile: downloads\3k 12.05-17.05.2025.xlsx, hash: 84b4586f350e32d5e0c8a73872a79bfac14395b92f02f33e7accb0baf87482fe file_id: BQACAgIAAyEGAASXNVtGAAICD2gdTBOnuFLTiluzfdg09JRlpNiBAAJMaQAC3CLwSLErR0-l9g1tNgQ, tFile: downloads\1k 05.05-10.05.2025.xlsx, hash: da6420e1934aa2c0ec7f83a38b332ae0a6f48190f707493e842d871c267d6dd4 file_id: BQACAgIAAyEGAASXNVtGAAICEGgdTBPTycC3DjJCjqd2M4vLtbN0AAJNaQAC3CLwSMGJWM7bCJmRNgQ, tFile: downloads\2k 05.05-10.05.2025.xlsx, hash: fa4558f71b84a7056ab094c72e09353becd99dac720f3825cc75b986bcf47d03 file_id: BQACAgIAAyEGAASXNVtGAAICEWgdTBRoUjlm6S_sEmHpCemKCHPnAAJOaQAC3CLwSKrO2Cv-um1DNgQ, tFile: downloads\3k 05.05-10.05.2025.xlsx, hash: ba07fdc276995d2e49e36667318083965c29b6f23aebe3981c9ca1e646f83181 file_id: BQACAgIAAyEGAASXNVtGAAICEmgdTBdIc0TdZ001ziVC4-G0G6TbAAJPaQAC3CLwSNrE5qWaeYtKNgQ], 'och_zaoch': [tFile: downloads\1kBEK-24oz 12.05-17.05.xls, hash: a35fec7c34633413ff442a1051b2e32d858445cb3d665370b01180f4a8051d42 file_id: BQACAgIAAyEGAASXNVtGAAICE2gdTBjHpIVyMixXJP_q_NvGfM0OAAJQaQAC3CLwSGtKNYk3iPnSNgQ, tFile: downloads\2kBEK-23oz 12.05-17.05.xls, hash: e156353ab15ef97ad40409cc147425aaec7bd0c7b178ef4943b62e72b36a1097 file_id: BQACAgIAAyEGAASXNVtGAAICFGgdTBg_Dwx41c26ihYX4lNH6B52AAJRaQAC3CLwSCIrzr-Nku7mNgQ, tFile: downloads\3kBEK-22oz 12.05-17.05.xls, hash: 59fbecb2c612a5607af214b48d51941ff48e324a0de6cd761438726041f1c6f0 file_id: BQACAgIAAyEGAASXNVtGAAICFWgdTBlnAAFF_2QW9nrqnWORaOaj-wACUmkAAtwi8Ejwt4urETV62jYE, tFile: downloads\1kBEK-24oz 05.05-10.05.xls, hash: 5e73a5819700aa0d0a8b0777100630df7849b39eaaf1b988a4641219e20d72ee file_id: BQACAgIAAyEGAASXNVtGAAICFmgdTBnIK1zxS5OZIiq5UXp462fUAAJTaQAC3CLwSP-NrxP4lNNENgQ, tFile: downloads\2kBEK-23oz 05.05-10.05.xls, hash: ea70c7167ae1b9d38e85c093a25446e391c467671f2a90378aadd581d6ca11bf file_id: BQACAgIAAyEGAASXNVtGAAICF2gdTBy2PtJ2X4hyMPjNa5DVq2lyAAJUaQAC3CLwSGLxJLDwrf4zNgQ, tFile: downloads\3kBEK-22oz 05.05-10.05.xls, hash: 47a9b8e9e43b3c836882ab4d82c0a4815413cf829b07ffd49f867b7c35c60fbc file_id: BQACAgIAAyEGAASXNVtGAAICGGgdTB3-cE_MyJbTJ6aAk8GH5yopAAJVaQAC3CLwSI-3d9z4KevsNgQ]}
+2025-05-09 05:27:33 - Parse - INFO - Очищена папка downloads
+2025-05-09 05:32:38 - Parse - INFO - Session got
+2025-05-09 05:32:42 - Parse - INFO - файл downloads\3k 12.05-17.05.2025.xlsx уже находится в бд, hash: 84b4586f350e32d5e0c8a73872a79bfac14395b92f02f33e7accb0baf87482fe
+2025-05-09 05:32:42 - Parse - INFO - файл downloads\1k 05.05-10.05.2025.xlsx уже находится в бд, hash: da6420e1934aa2c0ec7f83a38b332ae0a6f48190f707493e842d871c267d6dd4
+2025-05-09 05:32:42 - Parse - INFO - файл downloads\2k 05.05-10.05.2025.xlsx уже находится в бд, hash: fa4558f71b84a7056ab094c72e09353becd99dac720f3825cc75b986bcf47d03
+2025-05-09 05:32:43 - Parse - INFO - файл downloads\3k 05.05-10.05.2025.xlsx уже находится в бд, hash: ba07fdc276995d2e49e36667318083965c29b6f23aebe3981c9ca1e646f83181
+2025-05-09 05:32:43 - Parse - INFO - файл downloads\1kBEK-24oz 12.05-17.05.xls уже находится в бд, hash: a35fec7c34633413ff442a1051b2e32d858445cb3d665370b01180f4a8051d42
+2025-05-09 05:32:43 - Parse - INFO - файл downloads\2kBEK-23oz 12.05-17.05.xls уже находится в бд, hash: e156353ab15ef97ad40409cc147425aaec7bd0c7b178ef4943b62e72b36a1097
+2025-05-09 05:32:43 - Parse - INFO - файл downloads\3kBEK-22oz 12.05-17.05.xls уже находится в бд, hash: 59fbecb2c612a5607af214b48d51941ff48e324a0de6cd761438726041f1c6f0
+2025-05-09 05:32:44 - Parse - INFO - файл downloads\1kBEK-24oz 05.05-10.05.xls уже находится в бд, hash: 5e73a5819700aa0d0a8b0777100630df7849b39eaaf1b988a4641219e20d72ee
+2025-05-09 05:32:44 - Parse - INFO - файл downloads\2kBEK-23oz 05.05-10.05.xls уже находится в бд, hash: ea70c7167ae1b9d38e85c093a25446e391c467671f2a90378aadd581d6ca11bf
+2025-05-09 05:32:44 - Parse - INFO - файл downloads\3kBEK-22oz 05.05-10.05.xls уже находится в бд, hash: 47a9b8e9e43b3c836882ab4d82c0a4815413cf829b07ffd49f867b7c35c60fbc
+2025-05-09 05:32:46 - Parse - INFO - {'och': [tFile: downloads\1k 12.05-17.05.2025.xlsx, hash: 633d2ea4757370616ba6670769f613e1c94d94f487c0923d77fafd01dd463719 file_id: BQACAgIAAyEGAASXNVtGAAICG2gdTVYMWKYAAZYBP1dhLBRRnrchqAACWGkAAtwi8Egiu_bsTSw0TzYE, tFile: downloads\2k 12.05-17.05.2025.xlsx, hash: 26c4afddbff763a194b170fe0878850a5106b0cf53fa67b62cda78f7f91e9b09 file_id: BQACAgIAAyEGAASXNVtGAAICHGgdTVYcc8FVTc2zCvMga6wThAIhAAJZaQAC3CLwSMyDf3esIT_KNgQ], 'och_zaoch': []}
+2025-05-09 05:32:46 - Parse - INFO - Очищена папка downloads
+2025-05-09 05:37:51 - Parse - INFO - Session got
+2025-05-09 05:37:55 - Parse - INFO - файл downloads\2k 12.05-17.05.2025.xlsx уже находится в бд, hash: 26c4afddbff763a194b170fe0878850a5106b0cf53fa67b62cda78f7f91e9b09
+2025-05-09 05:37:55 - Parse - INFO - файл downloads\3k 12.05-17.05.2025.xlsx уже находится в бд, hash: 84b4586f350e32d5e0c8a73872a79bfac14395b92f02f33e7accb0baf87482fe
+2025-05-09 05:37:55 - Parse - INFO - файл downloads\1k 05.05-10.05.2025.xlsx уже находится в бд, hash: da6420e1934aa2c0ec7f83a38b332ae0a6f48190f707493e842d871c267d6dd4
+2025-05-09 05:37:56 - Parse - INFO - файл downloads\2k 05.05-10.05.2025.xlsx уже находится в бд, hash: fa4558f71b84a7056ab094c72e09353becd99dac720f3825cc75b986bcf47d03
+2025-05-09 05:37:56 - Parse - INFO - файл downloads\3k 05.05-10.05.2025.xlsx уже находится в бд, hash: ba07fdc276995d2e49e36667318083965c29b6f23aebe3981c9ca1e646f83181
+2025-05-09 05:37:56 - Parse - INFO - файл downloads\1kBEK-24oz 12.05-17.05.xls уже находится в бд, hash: a35fec7c34633413ff442a1051b2e32d858445cb3d665370b01180f4a8051d42
+2025-05-09 05:37:56 - Parse - INFO - файл downloads\2kBEK-23oz 12.05-17.05.xls уже находится в бд, hash: e156353ab15ef97ad40409cc147425aaec7bd0c7b178ef4943b62e72b36a1097
+2025-05-09 05:37:56 - Parse - INFO - файл downloads\3kBEK-22oz 12.05-17.05.xls уже находится в бд, hash: 59fbecb2c612a5607af214b48d51941ff48e324a0de6cd761438726041f1c6f0
+2025-05-09 05:37:57 - Parse - INFO - файл downloads\1kBEK-24oz 05.05-10.05.xls уже находится в бд, hash: 5e73a5819700aa0d0a8b0777100630df7849b39eaaf1b988a4641219e20d72ee
+2025-05-09 05:37:57 - Parse - INFO - файл downloads\2kBEK-23oz 05.05-10.05.xls уже находится в бд, hash: ea70c7167ae1b9d38e85c093a25446e391c467671f2a90378aadd581d6ca11bf
+2025-05-09 05:37:57 - Parse - INFO - файл downloads\3kBEK-22oz 05.05-10.05.xls уже находится в бд, hash: 47a9b8e9e43b3c836882ab4d82c0a4815413cf829b07ffd49f867b7c35c60fbc
+2025-05-09 05:37:58 - Parse - INFO - Обновлен файл, hash: 633d2ea4757370616ba6670769f613e1c94d94f487c0923d77fafd01dd463719; file_id: BQACAgIAAyEGAASXNVtGAAICIGgdTo-80GyCsa-9hr0StIG1f_mTAAJaaQAC3CLwSB49Iu_4PHBRNgQ 
+2025-05-09 05:37:58 - Parse - INFO - {'och': [tFile: downloads\1k 12.05-17.05.2025.xlsx, hash: 633d2ea4757370616ba6670769f613e1c94d94f487c0923d77fafd01dd463719 file_id: BQACAgIAAyEGAASXNVtGAAICIGgdTo-80GyCsa-9hr0StIG1f_mTAAJaaQAC3CLwSB49Iu_4PHBRNgQ], 'och_zaoch': []}
+2025-05-09 05:37:58 - Parse - INFO - Очищена папка downloads
+2025-05-09 05:40:40 - asyncio - ERROR - Unclosed client session
+client_session: <aiohttp.client.ClientSession object at 0x000001A8F2DB1690>

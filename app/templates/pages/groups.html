@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список групп</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^3/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/static/js/validate.js"></script>
+    <style>
+        body {
+            background-color: #f4f4f9;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 900px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+        th, td {
+            padding: 1rem;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: #ffffff;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .btn {
+            background-color: #007bff;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .back-btn {
+            background-color: #f4f4f9;
+            color: #555;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+        }
+        .back-btn:hover {
+            background-color: #ddd;
+        }
+        .status-on {
+            color: #28a745;
+            font-weight: 600;
+        }
+        .status-off {
+            color: #dc3545;
+            font-weight: 600;
+        }
+        .code-active {
+            color: #28a745;
+            font-weight: 600;
+        }
+        .code-inactive {
+            color: #dc3545;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <a href="{{ url_for('admin') }}" class="back-btn">← Назад</a>
+    <div class="container">
+        <h1 class="text-3xl font-bold mb-6">Список групп</h1>
+        <table id="groups-table">
+            <thead>
+                <tr>
+                    <th>Имя группы</th>
+                    <th>Статус оповещений</th>
+                    <th>Код</th>
+                    <th>Подробнее</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if groups and groups|length > 0 %}
+                    {% for group in groups %}
+                        <tr>
+                            <td>{{ group.tg_group_name }}</td>
+                            <td class="{{ 'status-on' if group.is_notify else 'status-off' }}">
+                                {{ "Включены" if group.is_notify else "Выключены" }}
+                            </td>
+                            <td class="{{ 'code-active' if group.is_activated else 'code-inactive' }}">
+                                {% if group.is_activated %}Активирован{% else %}{{ group.code_ }}{% endif %}
+                            </td>
+                            <td><button class="btn" onclick="alert('Подробнее пока не реализовано')">Подробнее</button></td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr><td colspan="4" class="text-center text-gray-500">Группы не найдены</td></tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -15,19 +15,24 @@ from aiogram.types import (
     InlineQueryResultDocument,
     InlineQuery
 )
+from pymongo import MongoClient
+from pymongo.synchronous.collection import Collection
 from dotenv import load_dotenv
 
 from models import model
 from filters.chat_type import ChatTypeFilter
 from middleware import middleware
-from db import activate_group, DbConnection, get_file_id_for_group
+from db import activate_group, DbConnection, get_edu_groups_id_by_chat_id
+from keyboards import keyboard
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 load_dotenv()
 
 bot = Bot(token=os.environ['BOT_TOKEN'])
+client = MongoClient(os.environ['HOST_MONGO'], int(os.environ['PORT_MONGO']))
 dp = Dispatcher()
+BASE_URL = os.environ['BASE_URL_TG']
 
 
 @dp.message(
@@ -43,7 +48,7 @@ async def activate_code(
         return
 
     values = message.text.split()
-    if group.activated:
+    if group.is_activated:
         await message.answer(text="Группа уже активирована!")
         return
 
@@ -53,7 +58,7 @@ async def activate_code(
         await message.answer(text="Код активации неверный")
         return
 
-    if code == group.code:
+    if code == group.code_:
         with DbConnection() as db_conn:
             activate_group(db_conn, group.chat_id)
         await message.answer(text="Активация группы была успешной!")
@@ -75,20 +80,15 @@ async def get_schedule(
         await message.answer(text="Данной группы нет в базе")
         return
 
-    if group.activated:
+    if group.is_activated:
+        # получить все edu_group_id, к которым привязан наш чат
         with DbConnection() as db_conn:
-
-            file_id = get_file_id_for_group(db_conn, group.file_type)
-            if file_id is None:
-                await message.answer(
-                   text="расписания нет"
-                )
-                return
-
-            await message.answer_document(
-                document=file_id,
-                caption='Актуальное расписание'
-            )
+            edu_g = get_edu_groups_id_by_chat_id(db_conn, tg_chat_id=message.chat.id)
+        kb = keyboard.schedule_keyboard(BASE_URL, chat_id=message.chat.id, edu_groups=edu_g)
+        await message.answer(
+            text='Актуальное расписание',
+            reply_markup=kb
+        )
 
     else:
         await message.answer(text="Группа не активирована")

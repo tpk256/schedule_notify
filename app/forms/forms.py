@@ -1,11 +1,13 @@
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-
 from pydantic import BaseModel
 
 
 class GroupForm(BaseModel):
-    chat_id: str
-    name_group: str
+    chat_id: int
+    group_name: str
     is_notify: bool
-    kyrs: int
-    forma_obychenia: str
+    list_id_edu_group: list[int]
+
+
+class MessageForm(BaseModel):
+    text: str
+    is_send: bool

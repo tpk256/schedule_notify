@@ -21,12 +21,8 @@ class GroupMiddleware(BaseMiddleware):
 
     def __check_group(self, event: TelegramObject) -> model.Group:
         with DbConnection() as db_conn:
-            res: model.Group | None = self.cache.get(str(event.chat.id), None)
-            if res:
-                return res
             group = get_group(db_conn, event.chat.id)
-            if group:
-                self.cache[str(event.chat.id)] = group
+            return group
 
     async def __call__(
         self,

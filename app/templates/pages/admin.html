@@ -50,8 +50,9 @@
 <body>
   <h1>Управление группами</h1>
   <div class="btn-container">
-    <a class="btn" href="/admin/create_group">Создать группу</a>
-    <a class="btn" href="/admin/groups">Список групп</a>
+    <a class="btn" href="{{ url_for('form_create_group') }}">Создать группу</a>
+    <a class="btn" href="{{ url_for('admin_groups') }}">Список групп</a>
+    <a class="btn" href="{{ url_for('admin_message') }}">Создать сообщение</a>
   </div>
 </body>
 </html>

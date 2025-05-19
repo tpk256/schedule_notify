@@ -5,7 +5,7 @@
   // URL для редиректа на страницу логина
   const loginUrl = "/login/";
   // URL для валидации токена
-  const validateUrl = "/token/validate/";
+  const validateUrl = "/api/v1/token/validate/";
 
   // Если токена нет — сразу редиректим
   if (!token) {

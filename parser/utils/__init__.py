@@ -2,7 +2,6 @@ import hashlib
 
 from pydantic import BaseModel
 
-from .links import *
 
 from .formatter import *
 

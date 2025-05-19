@@ -31,7 +31,7 @@
 
     try {
         // Получаем токен
-        const response = await fetch("/token/", {
+        const response = await fetch("{{ url_for('get_token') }}", {
             method: "POST",
             body: params
         });

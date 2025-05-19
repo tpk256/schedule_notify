@@ -4,44 +4,6 @@ import os
 from models import model
 
 
-def get_group(db_conn: sqlite3.Connection, chat_id: str) -> model.Group:
-    cursor = db_conn.cursor()
-
-    try:
-        query = """
-            SELECT 
-                g.chat_id,
-                g.name_group,
-                g.isNotify,
-                g.isActivated,
-                a.code,
-                g.ref_file_type
-            FROM TgGroup AS g
-            
-            LEFT JOIN Activator AS a
-              ON g.ref_activator = a.id
-            WHERE 
-                g.chat_id = ?
-        """
-        cursor.execute(query, (chat_id, ))
-        group = cursor.fetchone()
-        if not group:
-            return None
-
-        return model.Group(
-                    chat_id=group[0],
-                    name_group=group[1],
-                    is_notify=group[2],
-                    activated=group[3],
-                    code=group[4],
-                    file_type=group[5]
-        )
-
-    finally:
-        if cursor:
-            cursor.close()
-
-
 class DbConnection:
     def __enter__(self):
         self.db_conn = sqlite3.connect(os.environ['DATABASE'])
@@ -52,7 +14,7 @@ class DbConnection:
         self.db_conn.close()
 
 
-def activate_group(db_conn: sqlite3.Connection, chat_id: str):
+def activate_group(db_conn: sqlite3.Connection, tg_chat_id: int):
     cursor = db_conn.cursor()
 
     try:
@@ -60,38 +22,82 @@ def activate_group(db_conn: sqlite3.Connection, chat_id: str):
             UPDATE 
                 TgGroup
             SET
-                isActivated = ?
+                is_activated = ?
             WHERE 
-                chat_id = ?
+                tg_chat_id = ?
         """
-        cursor.execute(query, (True, chat_id))
+        cursor.execute(query, (True, tg_chat_id))
 
     finally:
         if cursor:
             cursor.close()
 
 
-def get_file_id_for_group(db_conn: sqlite3.Connection, file_type: int) -> str | None:
+def get_edu_groups_id_by_chat_id(db_conn: sqlite3.Connection, tg_chat_id: int) -> list[int]:
     cursor = db_conn.cursor()
 
     try:
         query = """
             SELECT 
-                file_id
-            FROM
-                ScheduleFile
+                EduGroup.id,
+                EduGroup.edu_group_name
+            FROM 
+                TgEdu
+            JOIN 
+                EduGroup ON TgEdu.edu_id = EduGroup.id
             WHERE 
-                ref_file_type = ?
-            ORDER BY date_changed DESC   
-            LIMIT 1;
-            
+                TgEdu.tg_group_id = ?
         """
-        cursor.execute(query, (file_type, ))
-        res = cursor.fetchone()
-        print(res)
-        if res:
-            return res[-1]
-        return None
+        cursor.execute(query, (tg_chat_id,))
+
+        # Извлекаем только имена групп
+
+        return cursor.fetchall()
+
+    finally:
+        if cursor:
+            cursor.close()
+
+
+def get_group(db_conn: sqlite3.Connection, tg_chat_id: int) -> model.Group:
+    cursor = db_conn.cursor()
+
+    try:
+        query = """
+             SELECT 
+                tg_chat_id,
+                tg_group_name,
+                is_notify,
+                is_activated,
+                code_id
+            FROM 
+                TgGroup
+            WHERE
+                tg_chat_id = ?;
+  
+        """
+        cursor.execute(query, (tg_chat_id,))
+        data = cursor.fetchone()
+        if not data:
+            return None
+
+        cursor.execute("""
+            SELECT 
+                code
+            FROM 
+                Code
+            WHERE
+                id = ?;
+        """, (data[-1], ))
+        code = cursor.fetchone()[-1]
+
+        return model.Group(
+            chat_id=data[0],
+            tg_group_name=data[1],
+            is_notify=data[2],
+            is_activated=data[3],
+            code_=code
+        )
 
     finally:
         if cursor:

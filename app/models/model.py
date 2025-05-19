@@ -1,59 +1,35 @@
-from enum import Enum
-
+from datetime import datetime
 
 from pydantic import BaseModel
 
 
-class FormaObychenia(Enum):
-    OCHNO = "ochnaya"
-    ZA_OCHNO = "zaochnaya"
-    OCHNO_AND_ZA_OCHNO = "och_zaoch"
-
-
-class FileType(BaseModel):
+class Code(BaseModel):
     id: int
-    forma_obucheniya: str
-    kurs: int
-
-    @staticmethod
-    def get_file_type(forma_obychenia, kyrs) -> int:
-        if forma_obychenia == FormaObychenia.OCHNO.value:
-            return 10 + kyrs
-        elif forma_obychenia == FormaObychenia.ZA_OCHNO.value:
-            return 20 + kyrs
-
-        elif forma_obychenia == FormaObychenia.OCHNO_AND_ZA_OCHNO.value:
-            return 30 + kyrs
-
-
-class Group(BaseModel):
-    chat_id: str
-    name_group: str
-    is_notify: bool
-    activated: bool
     code: str
-    file_type: int
 
-    @property
-    def get_forma(self) -> str:
-        temp = self.file_type // 10
 
-        if temp == 1:
-            return "Очно"
-        elif temp == 2:
-            return "Заочно"
-        elif temp == 3:
-            return "Очно-Заочно"
-        return ""
+class EduGroup(BaseModel):
+    id: int
+    course: int
+    edu_form: int
+    edu_group_name: str
 
+
+class TelegramGroup(BaseModel):
+    chat_id: int
+    tg_group_name: str
+    is_notify: bool
+    is_activated: bool
+    code_: str
+    data_created: datetime = None
 
 
 class User(BaseModel):
     id: int
     username: str
     hashed_password: str
-    email: str | None = None
-    isActive: bool | None = None
+    email: str = None
+    isActive: bool = None
 
 
 class Token(BaseModel):

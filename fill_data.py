@@ -1,6 +1,5 @@
 import sqlite3
 import os
-
 import dotenv
 
 dotenv.load_dotenv()
@@ -8,35 +7,68 @@ dotenv.load_dotenv()
 
 conn = sqlite3.connect(os.environ['DATABASE'])
 cursor = conn.cursor()
-#
-# import sqlite3
-# conn = sqlite3.connect("/db/schedule_notifier.db")
-# cursor = conn.cursor()
-#
-#
-# cursor.execute("""
-#     INSERT INTO Users (email, username, password_hash) VALUES (?, ?, ?);
-# """,
-#                ("tpk256@mail.ru", 'tpk256', "$2b$12$NOMy/HtIi4jPd8oRut/0GOFuSl.9BOLyG4cdc0wCJLrbSE67uY3q.")
-#                )
-# conn.commit()
-# conn.close()
-#
 
-for i in range(1, 4 + 1):
-    cursor.execute(f"""
-        INSERT INTO FileType (id, forma_obucheniya, kurs) VALUES (1{i}, "ochnaya", {i});
-    """)
 
-for i in range(1, 4 + 1):
-    cursor.execute(f"""
-        INSERT INTO FileType (id, forma_obucheniya, kurs) VALUES (2{i}, "zaochnaya", {i});
-    """)
+# cursor.execute(f"""
+#     INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 1, "БПИ-24");
+# """)
+# cursor.execute(f"""
+#         INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 1, "БТМО-24");
+#     """)
+# cursor.execute(f"""
+#         INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 1, "БЭЭ-24");
+#     """)
 
-for i in range(1, 4 + 1):
-    cursor.execute(f"""
-        INSERT INTO FileType (id, forma_obucheniya, kurs) VALUES (3{i}, "och-zaoch", {i});
-    """)
+cursor.execute(f"""
+    INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 1, "БХТ-24");
+""")
+
+cursor.execute(f"""
+    INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 1, "БМТ-24");
+""")
+
+
+cursor.execute(f"""
+    INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 3, "БМТ-22");
+""")
+
+cursor.execute(f"""
+    INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 3, "БХТ-22");
+""")
+
+
+# cursor.execute(f"""
+#     INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 3, "БПИ-22");
+# """)
+# cursor.execute(f"""
+#         INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 3, "БТМО-22");
+#     """)
+# cursor.execute(f"""
+#         INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 3, "БЭЭ-22");
+#     """)
+
+
+cursor.execute(f"""
+    INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 2, "БТМО-23");
+""")
+
+cursor.execute(f"""
+    INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 2, "БПИ-23");
+""")
+
+
+cursor.execute(f"""
+    INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 2, "БХТ-23");
+""")
+
+cursor.execute(f"""
+    INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 2, "БМТ-23");
+""")
+
+cursor.execute(f"""
+    INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 2, "БЭЭ-23");
+""")
+
 
 conn.commit()
 conn.close()

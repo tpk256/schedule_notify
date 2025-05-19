@@ -11,9 +11,13 @@ from bs4 import BeautifulSoup
 from aiogram import Bot
 from aiogram.types import FSInputFile
 from aiogram.exceptions import TelegramBadRequest
+from pymongo import MongoClient
+from pymongo.synchronous.collection import Collection
 
-from utils import file_hash, Link, FormaObychenia, File, GroupNotify
-from db import save_schedule_file, update_schedule_file, get_hash_by_url
+import models.model
+from models.model import Link, FormaObychenia, File
+from utils import file_hash, GroupNotify
+from utils.excel import parse_xlsx
 
 
 load_dotenv()
@@ -23,11 +27,11 @@ BASE_URL = os.environ['BASE_URL']
 LOGIN_PATH = os.environ['LOGIN_PATH']
 STORAGE_CHAT_ID = os.environ['STORAGE_CHAT_ID']
 BOT_TOKEN = os.environ['BOT_TOKEN']
+client = MongoClient(os.getenv('HOST_MONGO'), int(os.getenv('PORT_MONGO')))
 
 
-#
 async def download_files(
-        db_conn: sqlite3.Connection,
+        coll_mongo: Collection,
         session: ClientSession,
         links: list[Link],
         dest_folder: str = os.environ['DOWNLOAD_DIR'],
@@ -60,46 +64,23 @@ async def download_files(
                 with open(filepath, 'wb') as f:
                     f.write(data)
 
-            # Если расписание с таким url уже есть в бд, то нужно чекнуть их hash
-            temp_file_hash = get_hash_by_url(db_conn, url=link.url)
+
             current_hash = file_hash(filepath)
-            file = None
-            if temp_file_hash:
-                if temp_file_hash == current_hash:
-                    log.logger.info(f'файл {filepath} уже находится в бд, hash: {temp_file_hash}')
+            log.logger.info(f'{coll_mongo.find_one({"_id": link.file_type}).get("tables")} <---- В бд таблицы')
+            flag_next = False
+            for table in coll_mongo.find_one({"_id": link.file_type}).get('tables'):
+                if table.get('hash') == current_hash:
+                    log.logger.info(f'файл {filepath} уже находится в бд, hash: {current_hash}')
                     os.remove(filepath)
-                    continue
-
-                file = File(filepath, file_hash(filepath), link, updated=True)  # Расписание на этот период изменилось
-
-            if file is None:
-                file = File(filepath, file_hash(filepath), link)
+                    flag_next = True
+                    break
+            if flag_next:
+                continue
+            file = File(filepath, current_hash, link)
 
         saved_paths.append(file)
 
     return saved_paths
-
-
-async def upload_new_files(
-        db_conn: sqlite3.Connection,
-        bot: Bot,
-        files: list[File]
-) -> list[File]:
-
-    for file in files:
-        filename = os.path.basename(file.path)
-        try:
-            sent = await bot.send_document(
-                chat_id=STORAGE_CHAT_ID,
-                document=FSInputFile(file.path),
-                disable_notification=True
-            )
-            file.set_file_id(sent.document.file_id)
-            await bot.delete_message(chat_id=STORAGE_CHAT_ID, message_id=sent.message_id)
-
-        except TelegramBadRequest as e:
-            log.logger.error(f'Ошибка при загрузке {filename}: {e}')
-    return files
 
 
 async def clear_folder_downloads():
@@ -216,74 +197,98 @@ async def fetch_and_extract_links_och_zaoch_forma(session: ClientSession) -> lis
     return links
 
 
-async def save_data(db_conn: sqlite3.Connection, files: list[File]):
+async def save_data(mongo_coll: Collection, files: list[File]):
     for file in files:
-        if file.updated:
+        a, b = parse_xlsx(file.path)
+        tables: list[models.model.Table] = mongo_coll.find_one({'_id': file.link.file_type}).get('tables')
 
-            update_schedule_file(db_conn, file)
-            log.logger.info(f"Обновлен файл, hash: {file.hash}; file_id: {file.file_id} ")
-        else:
-            save_schedule_file(db_conn, file)
-
-
-async def get_groups_notify(db_conn: sqlite3.Connection, file_type: int, file_id: str) -> list[GroupNotify]:
-
-    cursor = db_conn.cursor()
-    try:
-        query = """
-            SELECT 
-                chat_id
-            FROM
-                TgGroup
-            WHERE
-                isActivated = ?
-              AND isNotify = ?
-              AND ref_file_type = ?;
-        
-        """
-        res = []
-        cursor.execute(query, (True, True, file_type, ))
-        for row in cursor.fetchall():
-            res.append(
-                GroupNotify(
-                    chat_id=row[-1],
-                    file_id=file_id
+        groups: models.model.Group = a
+        flag_parity: bool = b
+        table: models.model.Table = models.model.Table(
+            groups=groups,
+            hash=file.hash,
+            flag_parity=flag_parity
+        )
+        if not tables:
+            mongo_coll.replace_one(
+            {"_id": file.link.file_type},
+                {"_id": file.link.file_type, "tables": [table.model_dump()]},
+                    upsert=True
                 )
+
+        else:
+            tbls = []
+            for tbl in tables:
+                if tbl.get("flag_parity") == table.flag_parity:
+                    continue
+                tbls.append(tbl)
+
+            mongo_coll.replace_one(
+                {"_id": file.link.file_type},
+                {"_id": file.link.file_type, "tables": [table.model_dump()] + tbls},
+                upsert=True
             )
 
-        return res
 
-    finally:
-        if cursor:
-            cursor.close()
+#
+# async def get_groups_notify(db_conn: sqlite3.Connection, file_type: int, file_id: str) -> list[GroupNotify]:
+#
+#     cursor = db_conn.cursor()
+#     try:
+#         query = """
+#             SELECT
+#                 chat_id
+#             FROM
+#                 TgGroup
+#             WHERE
+#                 isActivated = ?
+#               AND isNotify = ?
+#               AND ref_file_type = ?;
+#
+#         """
+#         res = []
+#         cursor.execute(query, (True, True, file_type, ))
+#         for row in cursor.fetchall():
+#             res.append(
+#                 GroupNotify(
+#                     chat_id=row[-1],
+#                     file_id=file_id
+#                 )
+#             )
+#
+#         return res
+#
+#     finally:
+#         if cursor:
+#             cursor.close()
 
 
-async def send_notify(db_conn: sqlite3.Connection, bot: Bot, files: list[File]):
-
-    groups: list[GroupNotify] = []
-    for file in files:
-        groups += await get_groups_notify(db_conn, file.link.file_type, file.file_id)
-
-    for group in groups:
-        await bot.send_document(
-            chat_id=group.chat_id,
-            document=group.file_id,
-            caption="Выложено новое расписание!"
-        )
-
+# async def send_notify(db_conn: sqlite3.Connection, bot: Bot, files: list[File]):
+#
+#     groups: list[GroupNotify] = []
+#     for file in files:
+#         groups += await get_groups_notify(db_conn, file.link.file_type, file.file_id)
+#
+#     for group in groups:
+#         await bot.send_document(
+#             chat_id=group.chat_id,
+#             document=group.file_id,
+#             caption="Выложено новое расписание!"
+#         )
 
 async def main():
     session = None
-    db = None
+    mongo_db = client[os.getenv('NAME_DATABASE_MONGO')]
     bot = Bot(token=BOT_TOKEN)
+
     while True:
         try:
-            db = sqlite3.connect(os.environ['DATABASE'])
+            mongo_coll = mongo_db['course_form']
             session = await login(os.environ['USERNAME_MISIS'], os.environ['PASSWORD_MISIS'])
 
             funcs = {
                 "och": fetch_and_extract_links_ochnaya_forma,
-                "och_zaoch": fetch_and_extract_links_och_zaoch_forma
+                # "och_zaoch": fetch_and_extract_links_och_zaoch_forma
             }
 
             links = {
@@ -291,28 +296,33 @@ async def main():
             }
 
             files = {
-                forma_ob: await download_files(db, session, links) for forma_ob, links in links.items()
+                forma_ob: await download_files(mongo_coll, session, links) for forma_ob, links in links.items()
             }
 
-            uploaded_files = {
-                forma_ob: await upload_new_files(db, bot, files) for forma_ob, files in files.items()
-            }
 
-            for_notify = []
-            for _, files in uploaded_files.items():
-                for_notify += files
-                await save_data(db, files)
+            fls = []
 
-            await send_notify(db, bot, for_notify)
-            log.logger.info(f"{uploaded_files}")
+            for f in files.values():
+                fls += f
+            if fls:
+                log.logger.info(f'({fls}, "файлы")')
+                await save_data(mongo_coll, fls)
+            else:
+                log.logger.info(f"Нет обновлений")
+
+            # # for_notify = []
+            # for _, file in :
+            #     # for_notify += files
+
+            #
+            # await send_notify(db, bot, for_notify)
+            # log.logger.info(f"{uploaded_files}")
 
         except Exception as ex:
             log.logger.error(f"Произошла ошибка {ex}")
         finally:
             if session:
                 await session.close()
-            db.commit()
-            db.close()
             await clear_folder_downloads()
 
         await asyncio.sleep(300)

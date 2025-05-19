@@ -1,31 +1,29 @@
-import sqlite3
 import os
-from typing import Annotated, Any
-from datetime import datetime, timedelta, timezone
-from pathlib import Path
+from typing import Annotated
+import sqlite3
 
-
+from pymongo import MongoClient
 from fastapi.templating import Jinja2Templates
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from fastapi import Depends, FastAPI, HTTPException, status, Request, Form, Body
-from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
+from fastapi import FastAPI, Request, Depends
+from fastapi.exceptions import HTTPException
 from fastapi.staticfiles import StaticFiles
-from passlib.context import CryptContext
 from dotenv import load_dotenv
-from jwt.exceptions import InvalidTokenError, ExpiredSignatureError
 import uvicorn
-import jwt
 
-from models import model
-from forms import forms
+
+from api import router
 from depend import get_conn
-from db import get_all_file_type, get_user_by_username, save_tg_group, has_chat_id, get_groups
-
+from db import get_tg_groups, get_govno, has_chat_id
+from utils import even_week
+from models import mongo_model
 
 load_dotenv()
 ALGORITHM = os.getenv('ALGORITHM')
 SECRET_KEY = os.getenv('SECRET_KEY')
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES'))
+client = MongoClient(os.getenv('HOST_MONGO'), int(os.getenv('PORT_MONGO')))
+mongo_db = client[os.getenv('NAME_DATABASE_MONGO')]
+
 
 app = FastAPI(
     docs_url=None,
@@ -33,141 +31,120 @@ app = FastAPI(
     openapi_url=None
 )
 
+app.include_router(router)
 app.mount("/static", StaticFiles(directory='static'), name='static')
 templates = Jinja2Templates(directory="templates")
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-
-def verify_password(plain_password, hashed_password) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
-
-
-def authenticate_user(db_conn, username: str, password: str):
-    user = get_user_by_username(db_conn, username)
-    if not user:
-        return False
-    if not verify_password(password, user.hashed_password):
-        return False
-    return user
-
-
-def create_access_token(data: dict, expires_delta: timedelta | None = None):
-    to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.now(timezone.utc) + expires_delta
-    else:
-        expire = datetime.now(timezone.utc) + timedelta(minutes=15)
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
-
-
-async def get_current_user(
+def get_group(
         db_conn: Annotated[sqlite3.Connection, Depends(get_conn)],
-        token: Annotated[str, Depends(oauth2_scheme)]
-):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username = payload.get("sub")
-        if username is None:
-            raise credentials_exception
-    except InvalidTokenError:
-        raise credentials_exception
+        chat_id: int,
+        edu_group_id: int
+) -> mongo_model.Group | None:
 
-    user = get_user_by_username(db_conn, username=username)
-    if user is None:
-        raise credentials_exception
-    if not user.isActive:
-        raise credentials_exception
+    mongo_coll = mongo_db['course_form']
+    gr = has_chat_id(db_conn, chat_id)
+    data = get_govno(db_conn, chat_id, edu_group_id)
+    if not (data and gr):
+        raise HTTPException(status_code=404)
 
-    return user, db_conn
+    course, edu_form, edu_group_name = data
 
+    if not gr.is_activated:
+        raise HTTPException(status_code=403)
 
-@app.post('/token/')
-async def token(
-        db_conn: Annotated[sqlite3.Connection, Depends(get_conn)],
-        form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-) -> model.Token:
-    user = authenticate_user(db_conn, form_data.username, form_data.password)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect username or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    access_token = create_access_token(
-        data={"sub": user.username}, expires_delta=access_token_expires
-    )
-    return model.Token(access_token=access_token, token_type="bearer")
+    obj = mongo_coll.find_one({"_id": edu_form * 10 + course})
+    flag_parity = even_week()
+    groups = []
 
+    for table in obj.get('tables'):
+        if table.get('flag_parity') == flag_parity:
+            for group in table.get('groups'):
+                if group.get('name') == edu_group_name:
+                    groups.append(mongo_model.Group.parse_obj(group))
+                    break
+    if not groups:
+        groups.append(None)
 
-@app.post('/token/validate/')
-async def token_validate(
-        _: Annotated[tuple[model.User, sqlite3.Connection], Depends(get_current_user)],
-):
-    return JSONResponse({}, status_code=200)
+    for table in obj.get('tables'):
+        if table.get('flag_parity') != flag_parity:
+            for group in table.get('groups'):
+                if group.get('name') == edu_group_name:
+                    groups.append(mongo_model.Group.parse_obj(group))
+                    break
+    if len(groups) == 1:
+        groups.append(None)
 
+    return tuple(groups)
 
-@app.post('/group/create/')
-async def create_group(
-        group_form: Annotated[forms.GroupForm, Body()],
-        user_and_db: Annotated[tuple[model.User, sqlite3.Connection], Depends(get_current_user)]
-
-):
-    if has_chat_id(user_and_db[-1], group_form.chat_id):
-        raise HTTPException(
-            status_code=409,
-            detail="Группа с таким ID уже существует"
-        )
-    save_tg_group(user_and_db[-1], group_form)
-    return JSONResponse({"message": "ok"}, status_code=200)
 
 
 @app.get('/login/')
 async def auth(request: Request):
-   return templates.TemplateResponse("login.html",  {"request": request})
+   return templates.TemplateResponse("pages/login.html",  {"request": request})
 
 
-@app.get("/file_type/")
-async def get_file_type(
-        db_conn_and_user: Annotated[tuple[model.User, sqlite3.Connection], Depends(get_current_user)],
-) -> list[model.FileType]:
-    _, db_conn = db_conn_and_user
-    return get_all_file_type(db_conn)
-
-
-@app.get("/admin/")
+@app.get("/admin/", name='admin')
 async def admin(
         request: Request
 ):
-    return templates.TemplateResponse("admin.html",  {"request": request})
+    return templates.TemplateResponse("pages/admin.html",  {"request": request})
 
 
-@app.get("/admin/create_group/")
-async def create_group(
+@app.get("/admin/create_group/", name="form_create_group")
+async def admin_create_group(
         request: Request
 ):
-    return templates.TemplateResponse("create_group.html",  {"request": request})
+    return templates.TemplateResponse("pages/create_group.html",  {"request": request})
 
 
-@app.get("/admin/groups/")
-async def groups(
+@app.get("/admin/groups", name="admin_groups")
+async def admin_groups(
         request: Request,
         db_conn: Annotated[sqlite3.Connection, Depends(get_conn)]
 ):
     return templates.TemplateResponse(
-        "groups.html",
+          "pages/groups.html",
           {
               "request": request,
-              "groups": get_groups(db_conn)
+              "groups": get_tg_groups(db_conn)
+          }
+    )
+
+
+@app.get("/schedule/{chat_id}/{edu_group_id}")
+async def schedule(
+        request: Request,
+        groups:
+        Annotated[tuple[mongo_model.Group | None, mongo_model.Group | None],
+            Depends(get_group)]
+):
+
+    a, b = "Четная", "Нечетная"
+    if even_week:
+        a, b = b, a
+    return templates.TemplateResponse(
+        "pages/schedule.html",
+          {
+              "request": request,
+              "btn1": a,
+              "btn2": b,
+              "second_group": groups[1],
+              "first_group": groups[0]
+          }
+    )
+
+
+@app.get("/admin/create_message/", name="admin_message")
+async def create_message(
+        request: Request
+):
+
+    return templates.TemplateResponse(
+        "pages/create_message.html",
+          {
+              "request": request
+
           }
     )
 

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создать группу</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^3/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/static/js/validate.js"></script>
+    <style>
+        body {
+            background-color: #f4f4f9;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 2.5rem 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        .btn {
+            background-color: #007bff;
+            color: #fff;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: 600;
+            width: 100%;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+            text-align: left;
+        }
+        .form-input, .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        .hidden {
+            display: none;
+        }
+        .back-btn {
+            background-color: #f4f4f9;
+            color: #555;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <a href="{{ url_for('admin') }}" class="back-btn">← Назад</a>
+    <div class="container">
+        <h1 class="text-3xl font-bold mb-6">Создать группу</h1>
+        <form id="group-form" class="space-y-4">
+            <div>
+                <label for="group-name" class="form-label">Имя группы</label>
+                <input type="text" id="group-name" name="group_name" class="form-input" required>
+            </div>
+            <div>
+                <label for="group-id" class="form-label">ID группы в Telegram</label>
+                <input type="number" id="group-id" name="tg_group_id" class="form-input" required>
+            </div>
+            <div>
+                <label class="inline-flex items-center">
+                    <input type="checkbox" name="notifications" checked class="form-checkbox">
+                    <span class="ml-2">Уведомление</span>
+                </label>
+            </div>
+            <div>
+                <label for="edu-form" class="form-label">Форма обучения</label>
+                <select id="edu-form" name="edu_form" class="form-select" required>
+                    <option value="1">Очное</option>
+                    <option value="2">Заочное</option>
+                    <option value="3">Очно-Заочное</option>
+                </select>
+            </div>
+            <div id="course-container">
+                <label for="course" class="form-label">Курс</label>
+                <select id="course" name="course" class="form-select" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+            <div id="group-list-container" class="hidden">
+                <label class="form-label">Группы</label>
+                <div id="group-list" class="border p-2 rounded-md h-48 overflow-y-scroll text-left"></div>
+            </div>
+            <button type="submit" id="submit-btn" class="btn mt-4">Создать группу</button>
+        </form>
+    </div>
+
+    <script>
+        let eduGroups = [];
+
+        async function loadEduGroups() {
+            try {
+                const response = await axios.get("{{ url_for('get_edu_group') }}");
+                eduGroups = response.data;
+                updateGroupList();
+            } catch (error) {
+                console.error("Ошибка загрузки учебных групп", error);
+            }
+        }
+
+        function updateGroupList() {
+            const groupListContainer = document.getElementById("group-list-container");
+            const groupList = document.getElementById("group-list");
+            const submitBtn = document.getElementById("submit-btn");
+            groupList.innerHTML = "";
+            const form = document.getElementById("edu-form").value;
+            const course = document.getElementById("course").value;
+            const filteredGroups = eduGroups.filter(group => group.edu_form == form && group.course == course);
+
+            if (filteredGroups.length > 0) {
+                filteredGroups.forEach(group => {
+                    const checkbox = document.createElement("label");
+                    checkbox.classList.add("block", "text-gray-700");
+                    checkbox.innerHTML = `
+                        <input type="checkbox" name="edu_group_ids" value="${group.id}" class="mr-2">
+                        ${group.edu_group_name}
+                    `;
+                    groupList.appendChild(checkbox);
+                });
+                groupListContainer.classList.remove("hidden");
+                submitBtn.classList.remove("hidden");
+            } else {
+                groupList.innerHTML = "<p class='text-gray-500'>Нет доступных групп</p>";
+                groupListContainer.classList.remove("hidden");
+                submitBtn.classList.add("hidden");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadEduGroups();
+            document.getElementById("edu-form").addEventListener("change", updateGroupList);
+            document.getElementById("course").addEventListener("change", updateGroupList);
+            document.getElementById("group-form").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const jwtToken = localStorage.getItem('jwt');
+                if (!jwtToken) {
+                    alert("Пользователь не авторизован");
+                    return;
+                }
+                try {
+
+                     const groupIds = Array.from(document.querySelectorAll("input[name='edu_group_ids']:checked")).map(el => el.value);
+                    if (!groupIds.length){
+                        alert("Выберите как минимум одну группу");
+                        return;
+                     }
+                    const formData = new FormData(e.target);
+
+                    const payload = {
+                        group_name: formData.get("group_name"),
+                        chat_id: formData.get("tg_group_id"),
+                        is_notify: formData.get("notifications") !== null,
+                        list_id_edu_group: groupIds
+                    };
+                    const response = await axios.post("{{ url_for('api_create_group') }}", payload, {
+                        headers: { Authorization: `Bearer ${jwtToken}` }
+                    });
+                    alert("Группа успешно создана!");
+
+                } catch (error) {
+                    console.error(error);
+                    alert(error.response.data.detail);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

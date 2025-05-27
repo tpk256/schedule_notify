@@ -9,15 +9,15 @@ conn = sqlite3.connect(os.environ['DATABASE'])
 cursor = conn.cursor()
 
 
-# cursor.execute(f"""
-#     INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 1, "БПИ-24");
-# """)
-# cursor.execute(f"""
-#         INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 1, "БТМО-24");
-#     """)
-# cursor.execute(f"""
-#         INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 1, "БЭЭ-24");
-#     """)
+cursor.execute(f"""
+    INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 1, "БПИ-24");
+""")
+cursor.execute(f"""
+        INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 1, "БТМО-24");
+    """)
+cursor.execute(f"""
+        INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 1, "БЭЭ-24");
+    """)
 
 cursor.execute(f"""
     INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 1, "БХТ-24");
@@ -37,15 +37,15 @@ cursor.execute(f"""
 """)
 
 
-# cursor.execute(f"""
-#     INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 3, "БПИ-22");
-# """)
-# cursor.execute(f"""
-#         INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 3, "БТМО-22");
-#     """)
-# cursor.execute(f"""
-#         INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 3, "БЭЭ-22");
-#     """)
+cursor.execute(f"""
+    INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 3, "БПИ-22");
+""")
+cursor.execute(f"""
+        INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 3, "БТМО-22");
+    """)
+cursor.execute(f"""
+        INSERT INTO EduGroup (edu_form, course, edu_group_name) VALUES (1, 3, "БЭЭ-22");
+    """)
 
 
 cursor.execute(f"""

@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 from pymongo.synchronous.collection import Collection
-client = MongoClient("localhost", 27017)
+client = MongoClient("194.87.92.138", 27017)
 
 db = client['schedule']
 collection_tables: Collection = db.course_form

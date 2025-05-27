@@ -90,7 +90,7 @@ class Link:
     @property
     def file_type(self):
         if not (self.forma and self.kyrs):
-            return None
+            raise ValueError("Отсутствуют данные по форме или курсу")
         if self.forma == FormaObychenia.OCHNO.value:
             return self.kyrs + 10
         elif self.forma == FormaObychenia.ZA_OCHNO.value:

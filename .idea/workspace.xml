@@ -5,57 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="38ea3773-9c66-4bfe-b845-09b1458bf73b" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/api/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/v1/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/v1/group/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/v1/group/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/v1/message/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/v1/message/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/v1/token/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/api/v1/token/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/db/db.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/depend/depend.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/log.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/models/mongo_model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/templates/pages/create_message.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/utils/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/utils/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bot/keyboards/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bot/keyboards/keyboard.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bot/services/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bot/services/schedule.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bot/utils/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parser/db/mongo.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parser/db/sql.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parser/models/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parser/models/model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parser/mongo_init.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/parser/utils/excel.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/parser/keyboards/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/parser/keyboards/keyboard.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/tg.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/tg.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/db/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/depend/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/forms/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/add_admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/forms/forms.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/models/model.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/bootstrap.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/css/login.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/static/js/validate.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/admin.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/create_group.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/groups.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/login.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/db/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/db/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/middleware/middleware.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/middleware/middleware.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bot/models/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/bot/models/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/templates/pages/schedule.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/pages/schedule.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fill_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/fill_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/db/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/parser/db/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/models/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/parser/models/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/mongo_init.py" beforeDir="false" afterPath="$PROJECT_DIR$/parser/mongo_init.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/parser/parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/parser/parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parser/parser/logs/app.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/parser/utils/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/parser/utils/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parser/utils/links.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/parser/logs/app.log" beforeDir="false" afterPath="$PROJECT_DIR$/parser/parser/logs/app.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sqlite_schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/sqlite_schema.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -107,11 +68,12 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;develop&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/tpk256/source/repos/TicketPick/tg/app&quot;
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/tpk256/source/repos/TicketPick/tg/parser&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\tpk256\source\repos\TicketPick\tg\parser" />
       <recent name="C:\Users\tpk256\source\repos\TicketPick\tg\app" />
       <recent name="C:\Users\tpk256\source\repos\TicketPick\tg\for test" />
       <recent name="C:\Users\tpk256\source\repos\TicketPick\tg\app\templates" />
@@ -269,10 +231,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.bot" />
         <item itemvalue="Python.parser" />
-        <item itemvalue="Python.fill_data" />
+        <item itemvalue="Python.bot" />
         <item itemvalue="Python.mongo_init" />
+        <item itemvalue="Python.fill_data" />
       </list>
     </recent_temporary>
   </component>

@@ -15,9 +15,11 @@ from pymongo import MongoClient
 from pymongo.synchronous.collection import Collection
 
 import models.model
+from keyboards import keyboard
 from models.model import Link, FormaObychenia, File
 from utils import file_hash, GroupNotify
 from utils.excel import parse_xlsx
+from db import DbConnection
 
 
 load_dotenv()
@@ -28,7 +30,7 @@ LOGIN_PATH = os.environ['LOGIN_PATH']
 STORAGE_CHAT_ID = os.environ['STORAGE_CHAT_ID']
 BOT_TOKEN = os.environ['BOT_TOKEN']
 client = MongoClient(os.getenv('HOST_MONGO'), int(os.getenv('PORT_MONGO')))
-
+BASE_URL_TG = os.environ['BASE_URL_TG']
 
 async def download_files(
         coll_mongo: Collection,
@@ -231,50 +233,63 @@ async def save_data(mongo_coll: Collection, files: list[File]):
 
 
 #
-# async def get_groups_notify(db_conn: sqlite3.Connection, file_type: int, file_id: str) -> list[GroupNotify]:
-#
-#     cursor = db_conn.cursor()
-#     try:
-#         query = """
-#             SELECT
-#                 chat_id
-#             FROM
-#                 TgGroup
-#             WHERE
-#                 isActivated = ?
-#               AND isNotify = ?
-#               AND ref_file_type = ?;
-#
-#         """
-#         res = []
-#         cursor.execute(query, (True, True, file_type, ))
-#         for row in cursor.fetchall():
-#             res.append(
-#                 GroupNotify(
-#                     chat_id=row[-1],
-#                     file_id=file_id
-#                 )
-#             )
-#
-#         return res
-#
-#     finally:
-#         if cursor:
-#             cursor.close()
+async def get_groups_notify(db_conn: sqlite3.Connection) -> dict:
+
+    cursor = db_conn.cursor()
+    try:
+        query = """
+          SELECT
+          
+            tg.tg_chat_id,
+            eg.course,
+            eg.edu_form,
+            eg.edu_group_name,
+            eg.id            AS edu_group_id
+            
+        FROM TgGroup AS tg
+            JOIN TgEdu   AS te ON tg.tg_chat_id = te.tg_group_id
+            JOIN EduGroup AS eg ON te.edu_id       = eg.id
+        WHERE
+            tg.is_activated = TRUE
+            AND tg.is_notify = TRUE;
+        """
+        res = dict()
+        cursor.execute(query, )
+        for row in cursor.fetchall():
+            if res.get(row[0], None) is None:
+                res[row[0]] = {
+                    "edu_groups_id": [row[4]],
+                    "edu_form_course": row[2] * 10 + row[1],
+                    "edu_groups_name": [row[3]]
+                }
+            else:
+                res[row[0]]["edu_groups_id"].append(row[4])
+                res[row[0]]["edu_groups_name"].append(row[3])
 
 
-# async def send_notify(db_conn: sqlite3.Connection, bot: Bot, files: list[File]):
-#
-#     groups: list[GroupNotify] = []
-#     for file in files:
-#         groups += await get_groups_notify(db_conn, file.link.file_type, file.file_id)
-#
-#     for group in groups:
-#         await bot.send_document(
-#             chat_id=group.chat_id,
-#             document=group.file_id,
-#             caption="Выложено новое расписание!"
-#         )
+        return res
+
+    finally:
+        if cursor:
+            cursor.close()
+
+
+async def send_notify(db_conn: sqlite3.Connection, bot: Bot, files: set[int]):
+
+    groups = await get_groups_notify(db_conn)
+
+    for group_id in groups:
+        if groups[group_id]['edu_form_course'] in files:
+            await bot.send_message(
+                chat_id=group_id,
+                text="Выложено новое расписание!",
+                reply_markup=keyboard.schedule_keyboard(
+                    url=BASE_URL_TG,
+                    chat_id=group_id,
+                    edu_groups=zip(groups[group_id]['edu_groups_id'], groups[group_id]['edu_groups_name'])
+                )
+            )
+
 
 async def main():
     session = None
@@ -299,7 +314,6 @@ async def main():
                 forma_ob: await download_files(mongo_coll, session, links) for forma_ob, links in links.items()
             }
 
-
             fls = []
 
             for f in files.values():
@@ -307,6 +321,14 @@ async def main():
             if fls:
                 log.logger.info(f'({fls}, "файлы")')
                 await save_data(mongo_coll, fls)
+
+                fls: set[int] = {fl.link.file_type for fl in fls}
+                try:
+                    with DbConnection() as db_conn:
+                        await send_notify(db_conn=db_conn, bot=bot, files=fls)
+                except:
+                    ... # TODO add notify about error
+
             else:
                 log.logger.info(f"Нет обновлений")
 

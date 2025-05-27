@@ -130,6 +130,10 @@
     .hidden {
       display: none;
     }
+
+    .top-border{
+      border-top: 10px solid #1cd404;
+    }
   </style>
 </head>
 <body>
@@ -169,13 +173,17 @@
               {% for day in first_group.schedule.days %}
                 {% if day is string %}
                   <tr>
-                    <td colspan="5" style="text-align:center; font-style:italic; background:#fff4e5;">{{ day }}</td>
+                    <td colspan="5" style="text-align:center; font-style:italic; background:#fff4e5; border-top: 2px solid #1cd404;">{{ day }}</td>
                   </tr>
                 {% else %}
                   {% set valid_pairs = day.pairs | reject('equalto', None) | list %}
                   {% if valid_pairs %}
                     {% for p in valid_pairs %}
-                      <tr>
+                          {% if loop.first %}
+                              <tr style="border-top: 2px solid #1cd404;">
+                          {% else %}
+                              <tr>
+                          {% endif %}
                         {% if loop.first %}
                           <td rowspan="{{ valid_pairs|length }}">
                             <strong style="color:#2E7D32;">{{ day.name }}</strong><br>
@@ -234,13 +242,17 @@
               {% for day in second_group.schedule.days %}
                 {% if day is string %}
                   <tr>
-                    <td colspan="5" style="text-align:center; font-style:italic; background:#fff4e5;">{{ day }}</td>
+                    <td colspan="5" style="text-align:center; font-style:italic; background:#fff4e5; border-top: 2px solid #1cd404;">{{ day }}</td>
                   </tr>
                 {% else %}
                   {% set valid_pairs = day.pairs | reject('equalto', None) | list %}
                   {% if valid_pairs %}
                     {% for p in valid_pairs %}
-                      <tr>
+                          {% if loop.first %}
+                              <tr style="border-top: 2px solid #1cd404;">
+                          {% else %}
+                              <tr>
+                          {% endif %}
                         {% if loop.first %}
                           <td rowspan="{{ valid_pairs|length }}">
                             <strong style="color:#2E7D32;">{{ day.name }}</strong><br>

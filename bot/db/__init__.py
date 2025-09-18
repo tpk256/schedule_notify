@@ -1,12 +1,15 @@
 import sqlite3
 import os
+import json
+from typing import Optional
 
-from models import model
+from models import Schedule, Subscribe
 
 
 class DbConnection:
+    # TODO переделать на курсоры, ибо конекшины ДОРОГО
     def __enter__(self):
-        self.db_conn = sqlite3.connect(os.environ['DATABASE'])
+        self.db_conn = sqlite3.connect(os.environ['DB_NAME'])
         return self.db_conn
 
     def __exit__(self, exc_type, exc_val, exc_tb):
@@ -14,91 +17,90 @@ class DbConnection:
         self.db_conn.close()
 
 
-def activate_group(db_conn: sqlite3.Connection, tg_chat_id: int):
-    cursor = db_conn.cursor()
+def create_subscribe(tg_chat_id: int, number_course: int, cur: sqlite3.Cursor):
+    sql = """
+            INSERT INTO
+                Subscribers(tg_chat_id, course_id)
+            VALUES 
+                (?, ?);
+        """
+    cur.execute(
+        sql,
+        (tg_chat_id, number_course)
+    )
 
-    try:
-        query = """
-            UPDATE 
-                TgGroup
+
+def get_subscribe(tg_chat_id: int, cur: sqlite3.Cursor) -> Optional[Subscribe]:
+    sql = """
+            SELECT
+                *
+            FROM
+                Subscribers
+            WHERE
+                tg_chat_id = ? AND is_deleted = 0
+            LIMIT 1;
+        """
+    cur.execute(sql, (tg_chat_id, ))
+
+
+    result = cur.fetchone()
+
+    if not result:
+        return None
+
+    return Subscribe(
+        id=result[0],
+        tg_chat_id=result[1],
+        course_id=result[2]
+    )
+
+
+def delete_subscribe(row_id: int, tg_chat_id: int, cur: sqlite3.Cursor):
+    sql = """
+            UPDATE
+                Subscribers
             SET
-                is_activated = ?
-            WHERE 
-                tg_chat_id = ?
-        """
-        cursor.execute(query, (True, tg_chat_id))
-
-    finally:
-        if cursor:
-            cursor.close()
-
-
-def get_edu_groups_id_by_chat_id(db_conn: sqlite3.Connection, tg_chat_id: int) -> list[int]:
-    cursor = db_conn.cursor()
-
-    try:
-        query = """
-            SELECT 
-                EduGroup.id,
-                EduGroup.edu_group_name
-            FROM 
-                TgEdu
-            JOIN 
-                EduGroup ON TgEdu.edu_id = EduGroup.id
-            WHERE 
-                TgEdu.tg_group_id = ?
-        """
-        cursor.execute(query, (tg_chat_id,))
-
-        # Извлекаем только имена групп
-
-        return cursor.fetchall()
-
-    finally:
-        if cursor:
-            cursor.close()
-
-
-def get_group(db_conn: sqlite3.Connection, tg_chat_id: int) -> model.Group:
-    cursor = db_conn.cursor()
-
-    try:
-        query = """
-             SELECT 
-                tg_chat_id,
-                tg_group_name,
-                is_notify,
-                is_activated,
-                code_id
-            FROM 
-                TgGroup
+                is_deleted = 1
             WHERE
-                tg_chat_id = ?;
-  
-        """
-        cursor.execute(query, (tg_chat_id,))
-        data = cursor.fetchone()
-        if not data:
-            return None
+                tg_chat_id = ? AND id = ?;
+    """
+    cur.execute(sql, (tg_chat_id, row_id))
 
-        cursor.execute("""
-            SELECT 
-                code
-            FROM 
-                Code
-            WHERE
-                id = ?;
-        """, (data[-1], ))
-        code = cursor.fetchone()[-1]
 
-        return model.Group(
-            chat_id=data[0],
-            tg_group_name=data[1],
-            is_notify=data[2],
-            is_activated=data[3],
-            code_=code
-        )
+def get_schedule_info(course: int, parity: int, cur: sqlite3.Cursor) -> Optional[Schedule]:
+    sql = """
+        SELECT
+            *
+        FROM
+            Schedule
+        WHERE
+            course_id = ? AND parity = ?
+        ORDER BY date_updated DESC
+        LIMIT 1;
 
-    finally:
-        if cursor:
-            cursor.close()
+    """
+
+    cur.execute(
+        sql,
+        (course, parity)
+    )
+
+    founded = cur.fetchone()
+    if not founded:
+        return None
+
+    return Schedule(
+        id=founded[0],
+
+        course_id=founded[1],
+        parity=founded[2],
+        hash_excel=founded[3],
+        url=founded[4],
+        files_id=json.loads(founded[5]),
+
+        count_updates=founded[6],
+        date_updated=founded[7],
+        date_created=founded[8],
+    )
+
+
